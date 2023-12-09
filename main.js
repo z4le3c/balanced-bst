@@ -150,6 +150,25 @@ const newTree = (arr) => {
     return false
   }
 
+  tree.find = (val) => {
+    let currNode = tree.root
+
+    while (currNode !== null) {
+      if (currNode.data == val) {
+        return currNode
+      }
+
+      if (currNode.data < val) {
+        currNode = currNode.right
+        rightChild = true
+      } else {
+        currNode = currNode.left
+        rightChild = false
+      }
+    }
+
+    return null
+  }
   return tree
 }
 
@@ -177,3 +196,5 @@ prettyPrint(tree.root)
 
 tree.delete(5)
 prettyPrint(tree.root)
+
+console.log(tree.find(1))
