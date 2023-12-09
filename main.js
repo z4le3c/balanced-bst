@@ -30,7 +30,7 @@ const newTree = (arr) => {
       arr.push(e)
     }
 
-    arr.sort()
+    arr.sort((a,b) => a-b)
 
     let mid = Math.floor(arr.length / 2)
     let root = newNode(arr[mid])
@@ -47,26 +47,26 @@ const newTree = (arr) => {
     _insert(tree.root, newNode(val))
   }
 
-const _insert = (root, node) => {
-  let parent = null
-  let rightChild = false
-  let currNode = root
-  while (currNode !== null) {
-    parent = currNode
-    if (currNode.data < node.data) {
-      currNode = currNode.right
-      rightChild = true
+  const _insert = (root, node) => {
+    let parent = null
+    let rightChild = false
+    let currNode = root
+    while (currNode !== null) {
+      parent = currNode
+      if (currNode.data < node.data) {
+        currNode = currNode.right
+        rightChild = true
+      } else {
+        currNode = currNode.left
+        rightChild = false
+      }
+    }
+    if (rightChild) {
+      parent.right = node
     } else {
-      currNode = currNode.left
-      rightChild = false
+      parent.left = node
     }
   }
-  if (rightChild) {
-    parent.right = node
-  } else {
-    parent.left = node
-  }
-}
 
   tree.delete = (val) => {
     let parent = null
@@ -172,8 +172,8 @@ prettyPrint(tree.root)
 tree.insert(6)
 prettyPrint(tree.root)
 
-tree.delete(8)
+tree.delete(9)
 prettyPrint(tree.root)
 
-tree.delete(4)
+tree.delete(5)
 prettyPrint(tree.root)
