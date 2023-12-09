@@ -198,6 +198,90 @@ const newTree = (arr) => {
     if (!func) return arr
   }
 
+  tree.inOrder = (func) => {
+    if (!tree.root) return
+
+    let stack = [tree.root]
+    let arr = []
+    let seen = new Set()
+
+    while (stack.length) {
+      let node = stack.pop()
+
+      if (!seen.has(node.data)) {
+        if (node.right) {
+          stack.push(node.right)
+        }
+        stack.push(node)
+        seen.add(node.data)
+        if (node.left) {
+          stack.push(node.left)
+        }
+        continue
+      }
+
+      if (func) {
+        func(node)
+      } else {
+        arr.push(node.data)
+      }
+    }
+
+    if (!func) return arr
+  }
+
+  tree.preOrder = (func) => {
+    if (!tree.root) return
+
+    let stack = [tree.root]
+    let arr = []
+    while (stack.length) {
+      let node = stack.pop()
+
+      if (func) {
+        func(node)
+      } else {
+        arr.push(node.data)
+      }
+
+      if (node.right) stack.push(node.right)
+      if (node.left) stack.push(node.left)
+    }
+
+    if (!func) return arr
+  }
+
+  tree.postOrder = (func) => {
+    if (!tree.root) return
+
+    let stack = [tree.root]
+    let arr = []
+    let seen = new Set()
+
+    while (stack.length) {
+      let node = stack.pop()
+      if (!seen.has(node.data)) {
+        seen.add(node.data)
+        stack.push(node)
+        if (node.right) {
+          stack.push(node.right)
+        }
+        if (node.left) {
+          stack.push(node.left)
+        }
+        continue
+      }
+
+      if (func) {
+        func(node)
+      } else {
+        arr.push(node.data)
+      }
+    }
+
+    if (!func) return arr
+  }
+
   return tree
 }
 
@@ -226,8 +310,12 @@ prettyPrint(tree.root)
 tree.delete(5)
 prettyPrint(tree.root)
 
-console.log(tree.find(1))
+console.log(tree.find(8))
 
-tree.levelOrder((node) => {
-  console.log(node.data)
-})
+console.log(tree.levelOrder())
+
+console.log(tree.preOrder())
+
+console.log(tree.inOrder())
+
+console.log(tree.postOrder())
