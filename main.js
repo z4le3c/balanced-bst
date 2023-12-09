@@ -29,8 +29,8 @@ const newTree = (arr) => {
     for (const e of set) {
       arr.push(e)
     }
+
     arr.sort()
-    console.log(arr)
 
     let mid = Math.floor(arr.length / 2)
     let root = newNode(arr[mid])
@@ -42,6 +42,91 @@ const newTree = (arr) => {
 
   const tree = {}
   tree.root = buildTree(arr)
+
+  tree.insert = (val) => {
+    _insert(tree.root, newNode(val))
+  }
+
+const _insert = (root, node) => {
+  let parent = null
+  let rightChild = false
+  let currNode = root
+  while (currNode !== null) {
+    parent = currNode
+    if (currNode.data < node.data) {
+      currNode = currNode.right
+      rightChild = true
+    } else {
+      currNode = currNode.left
+      rightChild = false
+    }
+  }
+  if (rightChild) {
+    parent.right = node
+  } else {
+    parent.left = node
+  }
+}
+
+  tree.delete = (val) => {
+    let parent = null
+    let rightChild = false
+    let currNode = tree.root
+    while (currNode !== null) {
+      if (currNode.data == val) {
+        if (rightChild) {
+          if (currNode.left) {
+            parent.right = currNode.left
+            if (currNode.right) {
+              let orphanNode
+              if (parent.right.right) {
+                orphanNode = parent.right.right
+              }
+              parent.right.right = currNode.right
+              if (orphanNode) {
+                _insert(parent.right.right, orphanNode)
+              }
+            }
+          } else if (currNode.right) {
+            parent.right = currNode.right
+          } else {
+            parent.right = null
+          }
+        } else {
+          if (currNode.right) {
+            parent.left = currNode.right
+            if (currNode.left) {
+              let orphanNode
+              if (parent.left.left) {
+                orphanNode = parent.left.left
+              }
+              parent.left.left = currNode.left
+              if(orphanNode) {
+                _insert(parent.left.left, orphanNode)
+              }
+            }
+          } else if (currNode.left) {
+            parent.left = currNode.left
+          } else {
+            parent.left = null
+          }
+        }
+
+        return true
+      }
+
+      parent = currNode
+      if (currNode.data < val) {
+        currNode = currNode.right
+        rightChild = true
+      } else {
+        currNode = currNode.left
+        rightChild = false
+      }
+    }
+    
+    return false
+  }
 
   return tree
 }
@@ -59,4 +144,11 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-prettyPrint(newTree([2,5,6,7,2,4,8,3]).root)
+let tree = newTree([2,5,9,10,2,4,8,3])
+prettyPrint(tree.root)
+
+tree.insert(6)
+prettyPrint(tree.root)
+
+tree.delete(8)
+prettyPrint(tree.root)
