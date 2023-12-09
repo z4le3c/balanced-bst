@@ -282,6 +282,26 @@ const newTree = (arr) => {
     if (!func) return arr
   }
 
+  tree.height = (root) => {
+    if (!root) return -1
+
+    let stack = [[root, 0]]
+    let maxHeight = 0
+    while (stack.length) {
+      let [node, height] = stack.pop()
+      if (node.left) {
+        stack.push([node.left, height + 1])
+      }
+      if (node.right) {
+        stack.push([node.right, height + 1])
+      }
+
+      if (maxHeight < height) maxHeight = height
+    }
+
+    return maxHeight
+  }
+
   return tree
 }
 
@@ -319,3 +339,5 @@ console.log(tree.preOrder())
 console.log(tree.inOrder())
 
 console.log(tree.postOrder())
+
+console.log(`Tree height: ${tree.height(tree.root)}`)
