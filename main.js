@@ -24,18 +24,18 @@ const newTree = (arr) => {
     for (const e of arr) {
       set.add(e)
     }
-    
+
     arr = []
     for (const e of set) {
       arr.push(e)
     }
 
-    arr.sort((a,b) => a-b)
+    arr.sort((a, b) => a - b)
 
     let mid = Math.floor(arr.length / 2)
     let root = newNode(arr[mid])
-    root.left = buildTree(0, mid-1)
-    root.right = buildTree(mid+1, arr.length - 1)
+    root.left = buildTree(0, mid - 1)
+    root.right = buildTree(mid + 1, arr.length - 1)
 
     return root
   }
@@ -123,7 +123,7 @@ const newTree = (arr) => {
                 orphanNode = parent.left.left
               }
               parent.left.left = currNode.left
-              if(orphanNode) {
+              if (orphanNode) {
                 _insert(parent.left.left, orphanNode)
               }
             }
@@ -146,7 +146,7 @@ const newTree = (arr) => {
         rightChild = false
       }
     }
-    
+
     return false
   }
 
@@ -169,23 +169,52 @@ const newTree = (arr) => {
 
     return null
   }
+
+  tree.levelOrder = (func) => {
+    if (tree.root === null) return
+
+    let queue = [tree.root]
+    let arr = []
+    while (queue.length) {
+      let nextQueue = []
+
+      for (const node of queue) {
+        if (func) {
+          func(node)
+        } else {
+          arr.push(node.data)
+        }
+
+        if (node.left) {
+          nextQueue.push(node.left)
+        }
+        if (node.right) {
+          nextQueue.push(node.right)
+        }
+      }
+      queue = nextQueue
+    }
+
+    if (!func) return arr
+  }
+
   return tree
 }
 
-const prettyPrint = (node, prefix = "", isLeft = true) => {
+const prettyPrint = (node, prefix = '', isLeft = true) => {
   if (node === null) {
-    return;
+    return
   }
   if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
+    prettyPrint(node.right, `${prefix}${isLeft ? '│   ' : '    '}`, false)
   }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+  console.log(`${prefix}${isLeft ? '└── ' : '┌── '}${node.data}`)
   if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
+    prettyPrint(node.left, `${prefix}${isLeft ? '    ' : '│   '}`, true)
   }
-};
+}
 
-let tree = newTree([2,5,9,10,2,4,8,3])
+let tree = newTree([2, 5, 9, 10, 2, 4, 8, 3])
 prettyPrint(tree.root)
 
 tree.insert(6)
@@ -198,3 +227,7 @@ tree.delete(5)
 prettyPrint(tree.root)
 
 console.log(tree.find(1))
+
+tree.levelOrder((node) => {
+  console.log(node.data)
+})
