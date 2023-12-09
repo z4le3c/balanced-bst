@@ -21,7 +21,17 @@ const newTree = (arr) => {
       return root
     }
 
+    let set = new Set()
+    for (const e of arr) {
+      set.add(e)
+    }
+    
+    arr = []
+    for (const e of set) {
+      arr.push(e)
+    }
     arr.sort()
+    console.log(arr)
 
     let mid = Math.floor(arr.length / 2)
     let root = newNode(arr[mid])
@@ -38,4 +48,4 @@ const newTree = (arr) => {
   return tree
 }
 
-newTree([1,2,3,4,5,8])
+newTree([2,5,6,7,2,4,8,3])
