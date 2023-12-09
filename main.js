@@ -72,6 +72,28 @@ const _insert = (root, node) => {
     let parent = null
     let rightChild = false
     let currNode = tree.root
+
+    if (tree.root.data == val) {
+      if (currNode.left) {
+        tree.root = currNode.left
+        if (currNode.right) {
+          let orphanNode
+          if (tree.root.right) {
+            orphanNode = tree.root.right
+          }
+          tree.root.right = currNode.right
+          if (orphanNode) {
+            _insert(tree.root.right, orphanNode)
+          }
+        }
+      } else if (currNode.right) {
+        tree.root = currNode.right
+      } else {
+        tree.root = null
+      }
+      return true
+    }
+
     while (currNode !== null) {
       if (currNode.data == val) {
         if (rightChild) {
@@ -151,4 +173,7 @@ tree.insert(6)
 prettyPrint(tree.root)
 
 tree.delete(8)
+prettyPrint(tree.root)
+
+tree.delete(4)
 prettyPrint(tree.root)
