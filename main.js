@@ -44,6 +44,8 @@ const newTree = (arr) => {
   tree.root = buildTree(arr)
 
   tree.insert = (val) => {
+    if (!tree.root) tree.root = newNode(val)
+
     _insert(tree.root, newNode(val))
   }
 
@@ -52,6 +54,8 @@ const newTree = (arr) => {
     let rightChild = false
     let currNode = root
     while (currNode !== null) {
+      if (currNode.data == node.data) return
+
       parent = currNode
       if (currNode.data < node.data) {
         currNode = currNode.right
@@ -350,38 +354,71 @@ const prettyPrint = (node, prefix = '', isLeft = true) => {
   }
 }
 
-let tree = newTree([2, 5, 9, 10, 2, 4, 8, 3])
-prettyPrint(tree.root)
+const simpleTest = () => {
+  let tree = newTree([2, 5, 9, 10, 2, 4, 8, 3])
+  prettyPrint(tree.root)
+  
+  tree.insert(6)
+  console.log('insert 6')
+  prettyPrint(tree.root)
+  
+  tree.delete(9)
+  console.log('delete 9')
+  prettyPrint(tree.root)
+  
+  tree.delete(5)
+  console.log('delete 5')
+  prettyPrint(tree.root)
+  
+  console.log(tree.find(8) ? '8 found' : '8 not found')
+  
+  console.log(`levelOrder: ${tree.levelOrder()}`)
+  
+  console.log(`preOrder: ${tree.preOrder()}`)
+  
+  console.log(`inOrder: ${tree.inOrder()}`)
+  
+  console.log(`postOrder: ${tree.postOrder()}`)
+  
+  console.log(`Tree height: ${tree.height(tree.root)}`)
+  
+  console.log(`Node 6 depth: ${tree.depth(newNode(6))}`)
+  
+  console.log(`Is the tree balanced: ${tree.isBalanced()}`)
+  
+  tree.rebalance()
+  console.log('tree rebalance')
+  prettyPrint(tree.root)
+  console.log(`Is the tree balanced: ${tree.isBalanced()}`)
+}
 
-tree.insert(6)
-console.log('insert 6')
-prettyPrint(tree.root)
+const randomArray = (n) => {
+  let arr = []
 
-tree.delete(9)
-console.log('delete 9')
-prettyPrint(tree.root)
+  for (let i = 0; i <  n; i++) {
+    arr.push(Math.floor(Math.random() * n))
+  }
 
-tree.delete(5)
-console.log('delete 5')
-prettyPrint(tree.root)
+  return arr
+}
 
-console.log(tree.find(8) ? '8 found' : '8 not found')
+const addNumbers = (tree, n) => {
+  for (let i = 0; i < n; i++) {
+    tree.insert(Math.floor(Math.random() * n))
+  }
+}
+
+let tree = newTree(randomArray(10))
+console.log(`Tree is balanced?: ${tree.isBalanced()}`)
 
 console.log(`levelOrder: ${tree.levelOrder()}`)
-
+  
 console.log(`preOrder: ${tree.preOrder()}`)
 
 console.log(`inOrder: ${tree.inOrder()}`)
 
 console.log(`postOrder: ${tree.postOrder()}`)
 
-console.log(`Tree height: ${tree.height(tree.root)}`)
-
-console.log(`Node 6 depth: ${tree.depth(newNode(6))}`)
-
-console.log(`Is the tree balanced: ${tree.isBalanced()}`)
-
-tree.rebalance()
-console.log('tree rebalance')
+addNumbers(tree, 20)
 prettyPrint(tree.root)
-console.log(`Is the tree balanced: ${tree.isBalanced()}`)
+console.log(`Tree is balanced?: ${tree.isBalanced()}`)
