@@ -283,7 +283,7 @@ const newTree = (arr) => {
   }
 
   tree.height = (root) => {
-    if (!root) return -1
+    if (!root) return 0
 
     let stack = [[root, 0]]
     let maxHeight = 0
@@ -322,6 +322,13 @@ const newTree = (arr) => {
     return -1
   }
 
+  tree.isBalanced = () => {
+    let leftHeight = tree.height(tree.root.left)
+    let rightHeight = tree.height(tree.root.right)
+
+    return Math.abs(leftHeight - rightHeight) < 2
+  }
+
   return tree
 }
 
@@ -353,7 +360,7 @@ tree.delete(5)
 console.log('delete 5')
 prettyPrint(tree.root)
 
-console.log(tree.find(8) ? '8 found': '8 not found')
+console.log(tree.find(8) ? '8 found' : '8 not found')
 
 console.log(`levelOrder: ${tree.levelOrder()}`)
 
@@ -366,3 +373,5 @@ console.log(`postOrder: ${tree.postOrder()}`)
 console.log(`Tree height: ${tree.height(tree.root)}`)
 
 console.log(`Node 6 depth: ${tree.depth(newNode(6))}`)
+
+console.log(`Is the tree balanced: ${tree.isBalanced()}`)
