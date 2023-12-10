@@ -329,6 +329,11 @@ const newTree = (arr) => {
     return Math.abs(leftHeight - rightHeight) < 2
   }
 
+  tree.rebalance = () => {
+    let values = tree.inOrder()
+    tree.root = buildTree(values)
+  }
+
   return tree
 }
 
@@ -374,4 +379,9 @@ console.log(`Tree height: ${tree.height(tree.root)}`)
 
 console.log(`Node 6 depth: ${tree.depth(newNode(6))}`)
 
+console.log(`Is the tree balanced: ${tree.isBalanced()}`)
+
+tree.rebalance()
+console.log('tree rebalance')
+prettyPrint(tree.root)
 console.log(`Is the tree balanced: ${tree.isBalanced()}`)
