@@ -302,6 +302,26 @@ const newTree = (arr) => {
     return maxHeight
   }
 
+  tree.depth = (node) => {
+    if (!node) return -1
+
+    let currNode = tree.root
+    let depth = 0
+    while (currNode !== null) {
+      if (currNode.data === node.data) {
+        return depth
+      }
+
+      if (node.data < currNode.data) {
+        currNode = currNode.left
+      } else {
+        currNode = currNode.right
+      }
+      depth++
+    }
+    return -1
+  }
+
   return tree
 }
 
@@ -322,22 +342,27 @@ let tree = newTree([2, 5, 9, 10, 2, 4, 8, 3])
 prettyPrint(tree.root)
 
 tree.insert(6)
+console.log('insert 6')
 prettyPrint(tree.root)
 
 tree.delete(9)
+console.log('delete 9')
 prettyPrint(tree.root)
 
 tree.delete(5)
+console.log('delete 5')
 prettyPrint(tree.root)
 
-console.log(tree.find(8))
+console.log(tree.find(8) ? '8 found': '8 not found')
 
-console.log(tree.levelOrder())
+console.log(`levelOrder: ${tree.levelOrder()}`)
 
-console.log(tree.preOrder())
+console.log(`preOrder: ${tree.preOrder()}`)
 
-console.log(tree.inOrder())
+console.log(`inOrder: ${tree.inOrder()}`)
 
-console.log(tree.postOrder())
+console.log(`postOrder: ${tree.postOrder()}`)
 
 console.log(`Tree height: ${tree.height(tree.root)}`)
+
+console.log(`Node 6 depth: ${tree.depth(newNode(6))}`)
