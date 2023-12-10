@@ -422,3 +422,15 @@ console.log(`postOrder: ${tree.postOrder()}`)
 addNumbers(tree, 20)
 prettyPrint(tree.root)
 console.log(`Tree is balanced?: ${tree.isBalanced()}`)
+
+tree.rebalance()
+prettyPrint(tree.root)
+console.log(`Tree is balanced?: ${tree.isBalanced()}`)
+
+console.log(`levelOrder: ${tree.levelOrder()}`)
+  
+console.log(`preOrder: ${tree.preOrder()}`)
+
+console.log(`inOrder: ${tree.inOrder()}`)
+
+console.log(`postOrder: ${tree.postOrder()}`)
